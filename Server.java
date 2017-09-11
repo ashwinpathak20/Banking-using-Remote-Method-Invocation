@@ -14,6 +14,7 @@ public class Server extends ImplExample {
          // (here we are exporting the remote object to the stub) 
          Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0);  
          
+         stub.populate();
          // Binding the remote object (stub) in the registry 
          Registry registry = LocateRegistry.getRegistry(); 
          
