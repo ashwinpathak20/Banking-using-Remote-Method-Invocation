@@ -23,4 +23,5 @@ public interface Hello extends Remote {
    public ArrayList<Double> gettranamount(int acc_no) throws RemoteException;
    public void settrantime(int acc_no) throws RemoteException;
    public ArrayList<String> gettrantime(int acc_no) throws RemoteException;
+   public ArrayList<ArrayList<String> > history(int acc_no,String start,String end) throws RemoteException;
 }   

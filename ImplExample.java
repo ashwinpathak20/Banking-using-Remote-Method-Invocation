@@ -83,6 +83,94 @@ public class ImplExample implements Hello
 		return trantime.get(acc_no);
 	}
 
+	public ArrayList<ArrayList<String> > history(int acc_no,String start,String end)
+	{
+		ArrayList<String> totaltran = gettrantime(acc_no);
+		ArrayList<String> totaltype = gettypeofop(acc_no);
+		ArrayList<Double> totalamount = gettranamount(acc_no);
+		ArrayList<String> amount = new ArrayList<String>();
+		ArrayList<ArrayList<String> > table = new ArrayList<ArrayList<String> >();
+		for(int i=0;i<totalamount.size();i++)
+		{
+			amount.add(String.valueOf(totalamount.get(i)));
+		}
+		ArrayList<String> ans = new ArrayList<String>();
+		ArrayList<String> ans1 = new ArrayList<String>();
+		ArrayList<String> ans2 = new ArrayList<String>();
+		table.add(ans);
+		table.add(ans1);
+		table.add(ans2);
+		String [] st=start.split("-",6);
+		String [] en=end.split("-",6);
+		int[] stin= new int[6];
+		int[] enin = new int[6];
+		int j=0;
+		for(String w:st)
+		{
+			stin[j]=Integer.parseInt(w);
+			j++;
+		}
+		j=0;
+		for(String w:en)
+		{
+			enin[j]=Integer.parseInt(w);
+			j++;
+		}
+		for(int i=totaltran.size()-1;i>=0;i--)
+		{
+			String[] st1=totaltran.get(i).split("-",6);
+			int[] st1in = new int[6];
+			j=0;
+			for(String w:st1)
+			{
+				st1in[j]=Integer.parseInt(w);
+				j++;
+			}
+			int fl=0;
+			for(j=0;j<6;j++)
+			{
+				if(st1in[j]==enin[j])
+				{
+					continue;
+				}
+				else if(st1in[j]>enin[j])
+				{
+					fl=1;
+					break;
+				}
+				else
+				{
+					break;
+				}
+			}
+			for(j=0;j<6;j++)
+			{
+				if(st1in[j]==stin[j])
+				{
+					continue;
+				}
+				else if(st1in[j]<stin[j])
+				{
+					return table;
+				}
+				else
+				{
+					break;
+				}
+			}
+			if(fl==0)
+			{
+				ans = table.get(0);
+				ans1 = table.get(1);
+				ans2 = table.get(2);
+				ans.add(totaltran.get(i));
+				ans1.add(totaltype.get(i));
+				ans2.add(amount.get(i));
+			}
+		}
+		return table;
+	}
+
 	public double balance(int acc_no)
 	{
 		return getBalance(acc_no);
@@ -93,7 +181,7 @@ public class ImplExample implements Hello
 		setBalance(acc_no,x);
 		ArrayList<String> al = gettypeofop(acc_no);
 		ArrayList<Double> al1 = gettranamount(acc_no);
-		String time = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+		String time = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
 		ArrayList<String> al2 = gettrantime(acc_no);
 		al.add("deposit");
 		typeofop.put(acc_no, al);
@@ -108,7 +196,7 @@ public class ImplExample implements Hello
 	{
 		double curr = getBalance(acc_no);
 		double bal;
-		String time = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+		String time = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
 		//System.out.println(time);
 		if(curr<x)
 		{
